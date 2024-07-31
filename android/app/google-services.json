@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "757112076116",
+    "project_id": "red-spots-c405a",
+    "storage_bucket": "red-spots-c405a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757112076116:android:84e80400acc5c8975ebac1",
+        "android_client_info": {
+          "package_name": "com.example.red_spotss"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaBuaXIaSLfFnKTuwKUhx_rKeyXnaJXmw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
