@@ -150,7 +150,7 @@ class ImgProvider extends ChangeNotifier {
       final response = await http.post(
         Uri.parse(apiURL),
         headers: {
-          //HttpHeaders.authorizationHeader: 'Bearer $apiKey',
+          // HttpHeaders.authorizationHeader: 'Bearer $apiKey',
           HttpHeaders.contentTypeHeader: 'application/octet-stream',
         },
         body: bytes,

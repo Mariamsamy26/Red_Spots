@@ -17,19 +17,19 @@ class _HistoryScreenState extends State<history_screen> {
   @override
   void initState() {
     super.initState();
-    _fetchUserReports();
+    // _fetchUserReports();
   }
 
-  void _fetchUserReports() async {
-    final reports = await MyDatabase.getUserReports();
-    setState(() {
-      _userReports = reports;
-    });
-    print("User Reports fetched: ${_userReports.length}");
-    for (var report in _userReports) {
-      print("Report: ${report.classificationResult}");
-    }
-  }
+  // void _fetchUserReports() async {
+  //   final reports = await MyDatabase.getUserReports();
+  //   setState(() {
+  //     _userReports = reports;
+  //   });
+  //   print("User Reports fetched: ${_userReports.length}");
+  //   for (var report in _userReports) {
+  //     print("Report: ${report.classificationResult}");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:red_spotss/model/report_history.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'event_card.dart';
 
@@ -11,7 +12,7 @@ class TimeLine extends StatelessWidget {
     super.key,
     required this.isFirst,
     required this.isLast,
-    required this.isPast,
+    required this.isPast, required Report report,
   });
 
   @override

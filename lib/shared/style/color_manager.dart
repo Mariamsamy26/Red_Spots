@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorManager{
 
-  static const Color primaryColor =Color.fromRGBO(216, 118, 236, 1);//*
+  static const Color primaryColor =Color.fromRGBO(216, 118, 236, 0.7);//*
   static const Color scondeColor = Color.fromRGBO(242, 102, 86, 1);//*
 
   static const Color colorWhit= Color.fromRGBO(255, 255, 255, 1);

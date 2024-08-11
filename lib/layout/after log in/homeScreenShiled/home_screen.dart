@@ -1,37 +1,39 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:red_spotss/shared/firebase/firebase_function.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../Providers/my_provider.dart';
+import '../../../shared/components/Cuustom_taskitem.dart';
 import '../../../shared/components/categary.dart';
 import '../../../shared/style/color_manager.dart';
-import '../add tab/DermatologyClinicMapScreen.dart';
+import 'addRemmberScreen.dart';
 import 'history_screen.dart';
 import 'notification.dart';
 
 class Home_Screen extends StatefulWidget {
   static const String rountName = 'home';
+
+  const Home_Screen({super.key});
+
   @override
   State<Home_Screen> createState() => _Home_ScreenState();
 }
 
 class _Home_ScreenState extends State<Home_Screen> {
-  Future<void> _launchURL(String url) async {
-    final Uri uri = Uri(scheme: "http", host: url);
-    if (!await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw "can not lunch url";
-    }
-  }
   DateTime _SelectedDate = DateTime.now();
-  final TabController _taskControler = Get.put(TaskController());
-  var notifyHelper;
+
+  //final TaskController _taskController = Get.put(TaskController());
 
   @override
   Widget build(BuildContext context) {
+    var pro = Provider.of<MyProvider>(context);
     DateTime today = DateTime.now();
     void _onDaySelected(DateTime day, DateTime focusedDay) {
       setState(() {
@@ -42,23 +44,12 @@ class _Home_ScreenState extends State<Home_Screen> {
     return Scaffold(
         backgroundColor: ColorManager.colorWhit,
         appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {},
-            child: Icon(
-              Icons.nightlight_outlined,
-              size: 20,
-            ),
+          title: Text(
+            'welcom back ${pro.accountData!.fNAME!}',
+            style: const TextStyle(fontSize: 25, color: ColorManager.colorWhit),
           ),
+          centerTitle: false,
           actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DermatologyClinicMapScreen()),
-                );
-              },
-              icon: Icon(Icons.location_on_sharp),
-            ),
             IconButton(
               onPressed: () {
                 Navigator.push(
@@ -66,29 +57,86 @@ class _Home_ScreenState extends State<Home_Screen> {
                   MaterialPageRoute(builder: (context) => NotificationScreen()),
                 );
               },
-              icon: Icon(Icons.notifications_active_outlined),
+              icon: const Icon(
+                Icons.notifications_active_outlined,
+                color: ColorManager.colorWhit,
+              ),
             ),
           ],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(25),
-              bottomRight: Radius.circular(25),
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
             ),
           ),
           backgroundColor: ColorManager.primaryColor,
           elevation: 50,
-          title: Text(''),
         ),
         body: Column(
           children: [
-            _AddDateBar(),
-            SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  DateFormat('dd MMM yyyy').format(_SelectedDate),
+                  style: TextStyle(fontSize: 25, color: Colors.black45),
+                ),
+                MaterialButton(
+                  color: ColorManager.scondeColor,
+                  child: Text(
+                    "add note",
+                    style: TextStyle(color: Colors.black38, fontSize: 18),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddRemmberScreen()));
+                  },
+                ),
+              ],
+            ),
+            AddDateBar(),
+            const SizedBox(height: 18),
+
             Expanded(
               child: Container(
-                color:ColorManager.scondeColor.withOpacity(0.2),
-                //child: _showTasks(),
+                width: double.infinity,
+                color: ColorManager.scondeColor.withOpacity(0.2),
+                child: StreamBuilder(
+                  stream: firebaseFunctions.getTasks(today),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasError) {
+                      return Column(
+                        children: [
+                          Text("Something went wrong"),
+                          ElevatedButton(
+                              onPressed: () {}, child: Text("try again"))
+                        ],
+                      );
+                    }
+                    var tasks =
+                        snapshot.data?.docs.map((doc) => doc.data()).toList();
+
+                    if (tasks?.isEmpty ?? true) {
+                      return const Text("No notes to day");
+                    } else {
+                      return ListView.builder(
+                        itemBuilder: (context, index) {
+                          return Cuustomtaskitem(model: tasks[index]);
+                        },
+                        itemCount: tasks!.length,
+                      );
+                    }
+                  },
+                ),
               ),
             ),
+
+            // Category
             SizedBox(height: 15),
             ClipRRect(
               borderRadius: BorderRadius.circular(30),
@@ -138,34 +186,10 @@ class _Home_ScreenState extends State<Home_Screen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => history_screen()));
-
                           },
                         ),
                       ],
                     ),
-                    //   SizedBox(width: 30, height: 35),
-                    // Row(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //   CustomIconBottom(
-                    //   height: 40,
-                    // width: 130,
-                    //iconPath: 'assets/images/eczema.png',
-                    //text: 'Eczema',
-                    //OnPressed: () {
-                    //_launchURL("url");
-                    //},
-                    //),
-                    //SizedBox(width: 30, height: 60),
-                    //       CustomIconBottom(
-                    //       height: 40,
-                    //     width: 130,
-                    //   iconPath: 'assets/images/history.png',
-                    // text: 'History',
-                    //OnPressed: () {},
-                    //       ),
-                    //   ],
-                    //        ),
                     SizedBox(width: 30, height: 60),
                   ],
                 ),
@@ -175,8 +199,7 @@ class _Home_ScreenState extends State<Home_Screen> {
         ));
   }
 
-
-  _AddDateBar() {
+  dynamic AddDateBar() {
     return Container(
       margin: const EdgeInsets.only(top: 20, left: 20),
       child: DatePicker(
@@ -216,4 +239,45 @@ class _Home_ScreenState extends State<Home_Screen> {
     );
   }
 
+  Widget showTasks() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('tasks').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          var tasks = snapshot.data!.docs;
+          return ListView.builder(
+            itemCount: tasks.length,
+            itemBuilder: (context, index) {
+              var task = tasks[index].data() as Map<String, dynamic>;
+              return ListTile(
+                title: Text(task['title']),
+                subtitle: Text(task['description']),
+                trailing: Checkbox(
+                  value: task['isCompleted'],
+                  onChanged: (bool? value) {
+                    FirebaseFirestore.instance
+                        .collection('tasks')
+                        .doc(tasks[index].id)
+                        .update({'isCompleted': value});
+                  },
+                ),
+              );
+            },
+          );
+        }
+      },
+    );
+  }
+}
+
+Future<void> _launchURL(String url) async {
+  final Uri uri = Uri(scheme: "http", host: url);
+  if (!await launchUrl(
+    uri,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw "can not lunch url";
+  }
 }
