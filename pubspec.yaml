@@ -39,7 +39,7 @@ dependencies:
   permission_handler: ^11.2.0
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.2
-  modal_progress_hud_nsn: ^0.4.0
+  modal_progress_hud_nsn: ^0.5.1
   cloud_firestore: ^4.13.6
   provider: ^6.1.1
   table_calendar: ^3.0.9
@@ -56,6 +56,10 @@ dependencies:
   flutter_screenutil: ^5.9.0
   flutter_map: ^4.0.0
   latlong2: ^0.8.2
+  timeline_tile: ^2.0.0
+  date_picker_timeline: ^1.2.6
+  google_fonts: ^4.0.4
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:

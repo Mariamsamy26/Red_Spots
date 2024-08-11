@@ -7,7 +7,7 @@ class ClinicesApi {
   Future<List<Clinics>> getClinics(
       double latitude, double longitude) async {
     final url = Uri.parse(
-        'https://clinicsapi.runasp.net/Clinics/ClinicsAPI/?lat=$latitude&long=$longitude');
+        'http://clinicsapi.runasp.net/Clinics/ClinicsAPI/?lat=$latitude&long=$longitude');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = json.decode(response.body);

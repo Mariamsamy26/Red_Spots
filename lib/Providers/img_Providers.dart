@@ -2,15 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import '../layout/after log in/photoNavigator.dart';
 import '../layout/after log in/add tab/chickPhotoScreen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+import 'dart:io';
+
+const String apiURL =
+    "https://api-infrence.huggiace.co/mdels/ahmedesmail6/Psoriasis-Project-Aug-M2-swinv2-base-patch4-window11-192-2k";
 
 class ImgProvider extends ChangeNotifier {
   XFile? image;
   XFile? imagePath;
   XFile? imagePathProfile ;
   late PhotoNavigator navigator;
+
+  String? _classificationResult;
+  File? _image;
+  final picker = ImagePicker();
 
   Future<bool> checkPermissionCamera() async {
     var status = await Permission.camera.status;
@@ -133,4 +143,31 @@ class ImgProvider extends ChangeNotifier {
       ),
     );
   }
+
+  Future<void> classifyImage(File imageFile) async {
+    try {
+      final bytes = await imageFile.readAsBytes();
+      final response = await http.post(
+        Uri.parse(apiURL),
+        headers: {
+          //HttpHeaders.authorizationHeader: 'Bearer $apiKey',
+          HttpHeaders.contentTypeHeader: 'application/octet-stream',
+        },
+        body: bytes,
+      );
+
+      if (response.statusCode == 200) {
+        final result = jsonDecode(response.body);
+        {
+          _classificationResult = result.toString();
+          notifyListeners();
+        };
+      } else {
+        throw Exception('Failed to classify image');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
 }

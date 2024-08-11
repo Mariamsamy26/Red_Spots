@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:red_spotss/Providers/my_provider.dart';
 
 import '../../../Providers/img_Providers.dart';
+import '../../../Providers/my_provider.dart';
 import '../../../shared/components/Custom_ElevatedAccountFill.dart';
 import '../../../shared/style/color_manager.dart';
 import '../../Login screen/LoginScreen.dart';

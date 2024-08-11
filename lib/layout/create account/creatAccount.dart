@@ -172,9 +172,11 @@ class _CreatAccountScreenState extends State<CreatAccountScreen> {
                           },
                           labelText: StringsManager.passwordHint,
                           titleController: passwordController,
-                          lengthLimitFormatter: LengthLimitingTextInputFormatter(60),
-                            numericFilterFormatter: FilteringTextInputFormatter.allow(
-                                RegExp(r'[\w+@._%+-]')),
+                          lengthLimitFormatter:
+                              LengthLimitingTextInputFormatter(60),
+                          numericFilterFormatter:
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[\w+@._%+-]')),
                         ), //password
                         SizedBox(height: 20.h),
 
@@ -183,9 +185,11 @@ class _CreatAccountScreenState extends State<CreatAccountScreen> {
                           hintText: 'Age',
                           labelText: 'Age',
                           keyboardType: TextInputType.number,
-                          lengthLimitFormatter: LengthLimitingTextInputFormatter(3),
-                          numericFilterFormatter: FilteringTextInputFormatter.allow(
-                              RegExp(r'^(?:[1-9]|[1-9][0-9]|[1-9][0-9][0-9]|120)$')),
+                          lengthLimitFormatter:
+                              LengthLimitingTextInputFormatter(3),
+                          numericFilterFormatter:
+                              FilteringTextInputFormatter.allow(RegExp(
+                                  r'^(?:[1-9]|[1-9][0-9]|[1-9][0-9][0-9]|120)$')),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Please enter your age";
@@ -250,15 +254,13 @@ class _CreatAccountScreenState extends State<CreatAccountScreen> {
                                   passwordController.text,
                                   int.parse(ageController.text),
                                   dropdownValueGender,
-                                  dropdownValueLocation,
-                                      () {
+                                  dropdownValueLocation, () {
                                 pro.initUser();
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     Home_Screen.rountName, (route) => false);
                                 isLoding = false;
                                 setState(() {});
-                              },
-                                      (errormassage) {
+                              }, (errormassage) {
                                 showSnackBar(context, errormassage);
                                 isLoding = false;
                                 setState(() {});

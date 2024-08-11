@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
-import 'package:red_spotss/Providers/my_provider.dart';
 import 'package:red_spotss/shared/firebase/firebase_function.dart';
 
+import '../../Providers/my_provider.dart';
 import '../../shared/components/Custom_ElevatedButton.dart';
 import '../../shared/components/custom_textField.dart';
 import '../../shared/style/color_manager.dart';
@@ -84,20 +84,6 @@ class _LogInScreenState extends State<LogInScreen> {
                           titleController: emailController,
                         ), //Email
                         SizedBox(height: 20.h),
-
-                        /*TextField(
-                    obscureText:true,
-                    decoration: InputDecoration(
-                      suffixIcon: InkWell(
-                        onTap: () => setState(() {
-                          _isSecret = _isSecret ? false : true;
-                          return _isSecret;
-                        }),
-                        child: Icon(
-                          _isSecret == false ? Icons.visibility : Icons.visibility_off,
-                        ),
-                      ),),),
-                        */
 
                         CustomTextField(
                           keyboardType: TextInputType.visiblePassword,

@@ -84,7 +84,7 @@ class _chickPhotoScreenState extends State<chickPhotoScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => report_Screeen()));
+                                      builder: (context) => reportScreen()));
                             },
                           ),
                         ),
