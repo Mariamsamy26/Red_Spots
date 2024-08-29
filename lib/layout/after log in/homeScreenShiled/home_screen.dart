@@ -104,7 +104,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                 width: double.infinity,
                 color: ColorManager.scondeColor.withOpacity(0.2),
                 child: StreamBuilder(
-                  stream: firebaseFunctions.getTasks(today),
+                  stream: firebaseFunctions.getTasks(_SelectedDate),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
@@ -121,7 +121,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                     var tasks =
                         snapshot.data?.docs.map((doc) => doc.data()).toList();
 
-                    if (tasks?.isEmpty ?? true) {
+                    if (tasks?.isEmpty ?? true ) {
                       return const Text("No notes to day");
                     } else {
                       return ListView.builder(
