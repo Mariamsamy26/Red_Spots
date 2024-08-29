@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/AccountData.dart';
-import '../../model/report_history.dart';
+import '../../model/reportModel.dart';
 import '../../model/taskModel.dart';
 
 class firebaseFunctions {
@@ -178,5 +178,6 @@ class firebaseFunctions {
       },
     );
   }
+
 
 }

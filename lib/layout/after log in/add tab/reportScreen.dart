@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../Providers/my_provider.dart';
-import '../../../model/report_history.dart';
 import '../../../shared/components/Custom_ElevatedButton.dart';
-import '../../../shared/components/dialoge_utils.dart';
 import '../../../shared/firebase/firebase_function.dart';
 import '../../../shared/style/color_manager.dart';
 import '../homeScreenShiled/history_screen.dart';
@@ -26,7 +24,7 @@ class _reportScreenState extends State<reportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var pro =Provider.of<MyProvider>(context);
+    var pro = Provider.of<MyProvider>(context);
     final userId = pro.accountData?.id;
     return Scaffold(
       backgroundColor: ColorManager.primaryColor,
@@ -59,20 +57,6 @@ class _reportScreenState extends State<reportScreen> {
                           ),
                           SizedBox(height: 10),
 
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     color: Colors.white,
-                          //     borderRadius: BorderRadius.circular(30),
-                          //   ),
-                          //   child: ListTile(
-                          //     title: _classificationResult == null
-                          //         ? Text('Loading...')
-                          //         : Text(
-                          //       'Classification Result: $_classificationResult',
-                          //       style: TextStyle(fontSize: 24),
-                          //     ),
-                          //   ),
-                          // ),
                           Padding(
                             padding: const EdgeInsets.only(left: 50, right: 50),
                             child: Column(
@@ -109,7 +93,8 @@ class _reportScreenState extends State<reportScreen> {
                                     colorBorder: ColorManager.primaryColor,
                                     text: 'history',
                                     OnPressed: () {
-                                      firebaseFunctions.insertReport(report, userId!);
+                                      firebaseFunctions.insertReport(
+                                          report, userId!);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -158,26 +143,4 @@ class _reportScreenState extends State<reportScreen> {
     {"type": "psoriatic Arthritis", "level": "0.0010"},
   ];
 
-
-// @override
-// void initState() {
-//   super.initState();
-//   //********* Call API when the screen loads
-//   _getClassificationResult();
-// }
-//
-// Future<void> _getClassificationResult() async {
-//   setState(() {
-//     Column(
-//       children: [
-//         for (var i = 0; i < report.length; ++i)
-//           ListTile(
-//             title: report[i]["type"],
-//             subtitle: report[i]["level"],
-//           )
-//       ],
-//     );
-//     //_classificationResult = 'Result from API';
-//   });
-// }
 }

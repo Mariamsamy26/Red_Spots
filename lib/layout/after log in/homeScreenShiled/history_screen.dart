@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:red_spotss/shared/firebase/firebase_function.dart';
-import '../../../model/report_history.dart';
+import '../../../model/reportModel.dart';
 import '../../../shared/style/color_manager.dart';
 
 class history_screen extends StatefulWidget {

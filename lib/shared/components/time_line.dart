@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:red_spotss/model/report_history.dart';
+import 'package:red_spotss/model/reportModel.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'event_card.dart';
 

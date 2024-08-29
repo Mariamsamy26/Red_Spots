@@ -4,9 +4,8 @@ import 'package:intl/intl.dart';
 class Report {
   String id;
   String title;
-  List description;
+  List<Map> description;
   DateTime timestamp;
-
 
   Report({
     this.id = '',
