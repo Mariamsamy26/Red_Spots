@@ -9,7 +9,6 @@ import '../../../shared/components/Custom_ElevatedButton.dart';
 import '../../../shared/components/question_item.dart';
 import '../../../shared/style/color_manager.dart';
 import 'chickPhotoScreen.dart';
-import 'DermatologyClinicMapScreen.dart';
 
 class QuestionScreen extends StatefulWidget {
   static const String RountName = 'Add Photo Screen';

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../Providers/my_provider.dart';
 import '../../../model/report_history.dart';
+import '../../../shared/components/Custom_ElevatedButton.dart';
 import '../../../shared/components/dialoge_utils.dart';
-import '../../../shared/firebase/my_database.dart';
+import '../../../shared/firebase/firebase_function.dart';
 import '../../../shared/style/color_manager.dart';
 import '../homeScreenShiled/history_screen.dart';
 import 'DermatologyClinicMapScreen.dart';
@@ -17,7 +20,14 @@ class _reportScreenState extends State<reportScreen> {
   String? _classificationResult; // Added for API result
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var pro =Provider.of<MyProvider>(context);
+    final userId = pro.accountData?.id;
     return Scaffold(
       backgroundColor: ColorManager.primaryColor,
       body: SafeArea(
@@ -30,77 +40,105 @@ class _reportScreenState extends State<reportScreen> {
                 child: Container(
                   color: ColorManager.colorWhit,
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(height: 70, width: 40),
-                            Text(
-                              'Report',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(height: 70, width: 40),
+                              Text(
+                                'Report',
+                                style: TextStyle(
+                                  color: ColorManager.colorParper,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
+                            ],
                           ),
-                          child: ListTile(
-                            title: _classificationResult == null
-                                ? Text('Loading...')
-                                : Text(
-                              'Classification Result: $_classificationResult',
-                              style: TextStyle(fontSize: 24),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        OutlinedButton(
-                          onPressed: () {
-                            insertReport();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => history_screen(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            'History',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        OutlinedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    DermatologyClinicMapScreen(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            'Clinic',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                          SizedBox(height: 10),
+
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.white,
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          //   child: ListTile(
+                          //     title: _classificationResult == null
+                          //         ? Text('Loading...')
+                          //         : Text(
+                          //       'Classification Result: $_classificationResult',
+                          //       style: TextStyle(fontSize: 24),
+                          //     ),
+                          //   ),
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 50, right: 50),
+                            child: Column(
+                              children: [
+                                for (var i = 0; i < report.length; ++i)
+                                  ListTile(
+                                    title: Text(report[i]["type"],
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black)),
+                                    subtitle: Text(
+                                      "sore:${report[i]["level"]}",
+                                      style: const TextStyle(
+                                          fontSize: 20, color: Colors.black38),
+                                    ),
+                                  )
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomElevatedButton(
+                                    colorButton: ColorManager.colorWhit,
+                                    colorText: ColorManager.primaryColor,
+                                    colorBorder: ColorManager.primaryColor,
+                                    text: 'history',
+                                    OnPressed: () {
+                                      firebaseFunctions.insertReport(report, userId!);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  history_screen()));
+                                    },
+                                  ),
+                                ),
+                                SizedBox(width: 5),
+                                Expanded(
+                                  flex: 2,
+                                  child: CustomElevatedButton(
+                                    colorButton: ColorManager.primaryColor,
+                                    colorBorder: ColorManager.primaryColor,
+                                    text: 'Dermatology Clinic',
+                                    OnPressed: () {
+                                      Navigator.pop(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DermatologyClinicMapScreen()));
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -112,26 +150,34 @@ class _reportScreenState extends State<reportScreen> {
     );
   }
 
-  void insertReport() async {
-    Report report = Report(
-      title: titleControler.text,
-      description: descControler.text,
-    );
+  List report = [
+    {"type": "normal", "level": "0.7891"},
+    {"type": "Not Define", "level": "0.234"},
+    {"type": "UPNormal", "level": "0.234"},
+    {"type": "psoriatic Nail", "level": "0.0022"},
+    {"type": "psoriatic Arthritis", "level": "0.0010"},
+  ];
 
-    DialogeUtils();
-    await MyDatabase.insertReport(report);
-  }
 
-  @override
-  void initState() {
-    super.initState();
-    //********* Call API when the screen loads
-    _getClassificationResult();
-  }
-
-  Future<void> _getClassificationResult() async {
-    setState(() {
-      _classificationResult = 'Result from API';
-    });
-  }
+// @override
+// void initState() {
+//   super.initState();
+//   //********* Call API when the screen loads
+//   _getClassificationResult();
+// }
+//
+// Future<void> _getClassificationResult() async {
+//   setState(() {
+//     Column(
+//       children: [
+//         for (var i = 0; i < report.length; ++i)
+//           ListTile(
+//             title: report[i]["type"],
+//             subtitle: report[i]["level"],
+//           )
+//       ],
+//     );
+//     //_classificationResult = 'Result from API';
+//   });
+// }
 }
