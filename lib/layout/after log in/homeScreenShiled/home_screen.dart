@@ -4,7 +4,6 @@ import 'package:red_spotss/shared/firebase/firebase_function.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +44,7 @@ class _Home_ScreenState extends State<Home_Screen> {
         backgroundColor: ColorManager.colorWhit,
         appBar: AppBar(
           title: Text(
-            'welcom back ${pro.accountData!.fNAME!}',
+            'welcom back ${pro.accountData!.fNAME?? "User"}',
             style: const TextStyle(fontSize: 25, color: ColorManager.colorWhit),
           ),
           centerTitle: false,
@@ -121,7 +120,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                     var tasks =
                         snapshot.data?.docs.map((doc) => doc.data()).toList();
 
-                    if (tasks?.isEmpty ?? true ) {
+                    if (tasks == null || tasks.isEmpty ) {
                       return const Text("No notes to day");
                     } else {
                       return ListView.builder(

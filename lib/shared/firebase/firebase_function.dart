@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/AccountData.dart';
+import '../../model/report_history.dart';
 import '../../model/taskModel.dart';
 
 class firebaseFunctions {
@@ -148,5 +149,34 @@ class firebaseFunctions {
     return getTasksCollection().doc(model.id).update(model.toJson());
   }
 
+  static Future insertReport( List report,String idUser) async {
+    try {
+      await FirebaseFirestore.instance.collection('reports').add({
+        'description': report,
+        'timestamp': FieldValue.serverTimestamp(),
+        "userid":idUser,
+      });
+      print( 'Report saved successfully!');
+    } catch (e) {
+      print( 'Failed to save report: $e');
+    }
+  }
+
+  static CollectionReference<Report> getReportsCollection() {
+    return FirebaseFirestore.instance
+        .collection("reports")
+        .withConverter<Report>(
+      fromFirestore: (snapshot, _) {
+        final data = snapshot.data();
+        if (data == null) {
+          throw Exception('No data found for Report');
+        }
+        return Report.fromJson(data as Map<String, dynamic>);
+      },
+      toFirestore: (report, _) {
+        return report.toJson();
+      },
+    );
+  }
 
 }
