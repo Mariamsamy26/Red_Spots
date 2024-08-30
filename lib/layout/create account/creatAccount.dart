@@ -60,6 +60,8 @@ class _CreatAccountScreenState extends State<CreatAccountScreen> {
   var dropdownValueLocation;
 
   bool isLoding = false;
+  bool read = false;
+
 
   Widget build(BuildContext context) {
     var pro = Provider.of<MyProvider>(context);
@@ -160,23 +162,37 @@ class _CreatAccountScreenState extends State<CreatAccountScreen> {
                         ), //Email
                         SizedBox(height: 20.h),
 
-                        CustomTextField(
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          hintText: '*******',
+                        Text("password"),
+                        TextFormField(
                           validator: (text) {
-                            if (text?.isEmpty ?? false) {
-                              return "Please Enter Your Passowerd ";
+                            if (text?.isEmpty ?? true) {
+                              return "Please enter your password";
                             }
                             return null;
                           },
-                          labelText: StringsManager.passwordHint,
-                          titleController: passwordController,
-                          lengthLimitFormatter:
-                              LengthLimitingTextInputFormatter(60),
-                          numericFilterFormatter:
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[\w+@._%+-]')),
+                          obscureText: read ? false : true,
+                          keyboardType: TextInputType.text,
+                          controller: passwordController,
+                          decoration: InputDecoration(
+                            hintText: "*********" ,
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  read = !read;
+                                });
+                              },
+                              icon: Icon(
+                                read ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                              ),
+                            ),
+                            contentPadding: EdgeInsets.only(left: 12), // Adjust height here
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Color.fromRGBO(239, 239, 239, 1),
+                              ),
+                            ),
+                          ),
                         ), //password
                         SizedBox(height: 20.h),
 

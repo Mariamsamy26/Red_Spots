@@ -26,6 +26,7 @@ class _LogInScreenState extends State<LogInScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   bool isLoding = false;
+  bool read = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,20 +86,38 @@ class _LogInScreenState extends State<LogInScreen> {
                         ), //Email
                         SizedBox(height: 20.h),
 
-                        CustomTextField(
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          hintText: '.........',
+                        Text("password"),
+                        TextFormField(
                           validator: (text) {
-                            if (text?.isEmpty ?? false) {
-                              return "Please Enter Your Passowerd ";
+                            if (text?.isEmpty ?? true) {
+                              return "Please enter your password";
                             }
                             return null;
                           },
-                          labelText: StringsManager.passwordHint,
-                          onChanged: (data) {},
-                          titleController: passwordController,
-                        ), //Passowerd
+                          obscureText: read ? false : true,
+                          keyboardType: TextInputType.text,
+                          controller: passwordController,
+                          decoration: InputDecoration(
+                            hintText: "*********" ,
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  read = !read;
+                                });
+                              },
+                              icon: Icon(
+                                read ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                              ),
+                            ),
+                            contentPadding: EdgeInsets.only(left: 12), // Adjust height here
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Color.fromRGBO(239, 239, 239, 1),
+                              ),
+                            ),
+                          ),
+                        ),
                         SizedBox(height: 20.h),
 
                         CustomElevatedButton(
