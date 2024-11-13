@@ -13,10 +13,6 @@ class reportScreen extends StatefulWidget {
 }
 
 class _reportScreenState extends State<reportScreen> {
-  var titleControler = TextEditingController();
-  var descControler = TextEditingController();
-  String? _classificationResult; // Added for API result
-
   @override
   void initState() {
     super.initState();
@@ -56,7 +52,6 @@ class _reportScreenState extends State<reportScreen> {
                             ],
                           ),
                           SizedBox(height: 10),
-
                           Padding(
                             padding: const EdgeInsets.only(left: 50, right: 50),
                             child: Column(
@@ -91,15 +86,12 @@ class _reportScreenState extends State<reportScreen> {
                                     colorButton: ColorManager.colorWhit,
                                     colorText: ColorManager.primaryColor,
                                     colorBorder: ColorManager.primaryColor,
-                                    text: 'history',
+                                    text: 'home',
                                     OnPressed: () {
                                       firebaseFunctions.insertReport(
                                           report, userId!);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  history_screen()));
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst);
                                     },
                                   ),
                                 ),
@@ -111,7 +103,11 @@ class _reportScreenState extends State<reportScreen> {
                                     colorBorder: ColorManager.primaryColor,
                                     text: 'Dermatology Clinic',
                                     OnPressed: () {
-                                      Navigator.pop(
+                                      firebaseFunctions.insertReport(
+                                          report, userId!);
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst);
+                                      Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
@@ -136,11 +132,16 @@ class _reportScreenState extends State<reportScreen> {
   }
 
   List report = [
-    {"type": "normal", "level": "0.7891"},
-    {"type": "Not Define", "level": "0.234"},
-    {"type": "UPNormal", "level": "0.234"},
-    {"type": "psoriatic Nail", "level": "0.0022"},
-    {"type": "psoriatic Arthritis", "level": "0.0010"},
-  ];
+    // {"type": "normal", "level": "0.755"},
+    // {"type": "Not Define", "level": "0.234"},
+    // {"type": "UPNormal", "level": "0.354"},
+    // {"type": "psoriatic Nail", "level": "0.022"},
+    // {"type": "psoriatic Arthritis", "level": "0.110"},
 
+    {"type": "psoriatic Nail", "level": "0.687"},
+    {"type": "psoriatic Arthritis", "level": "0.210"},
+    {"type": "Not Define", "level": "0.134"},
+    {"type": "UPNormal", "level": "0.897"},
+    {"type": "normal", "level": "0.109"},
+  ];
 }

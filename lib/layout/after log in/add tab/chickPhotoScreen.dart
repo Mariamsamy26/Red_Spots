@@ -81,6 +81,7 @@ class _chickPhotoScreenState extends State<chickPhotoScreen> {
                           child: CustomElevatedButton(
                             text: 'Take Report',
                             OnPressed: () {
+                              Navigator.of(context).pop();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -93,7 +94,8 @@ class _chickPhotoScreenState extends State<chickPhotoScreen> {
                   ],
                 ),
               ),
-            )),
+            )
+        ),
       ],
     );
   }

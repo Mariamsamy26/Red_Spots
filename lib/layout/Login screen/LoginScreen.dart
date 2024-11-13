@@ -146,7 +146,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           },
                         ), //login
 
-                        SizedBox(height: 180.h),
+                        SizedBox(height: 230.h),
 
                         InkWell(
                             onTap: () {

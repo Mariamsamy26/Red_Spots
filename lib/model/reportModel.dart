@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class Report {
   String id;
   String title;
-  List<Map> description;
+  List<Map<String, dynamic>> description;
   DateTime timestamp;
 
   Report({
@@ -20,7 +20,7 @@ class Report {
       : this(
     id: data['id'] ?? '',
     title: data['title'] ?? '',
-    description: data['description'] ?? [],
+    description: List<Map<String, dynamic>>.from(data['description'] ?? []),
     timestamp: (data['timestamp'] as Timestamp).toDate(),
   );
 

@@ -2,14 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../model/clinicesModel.dart';
-import '../shared/components/Custom_LocationDermatologyClinic.dart';
-import '../shared/style/color_manager.dart';
 
 class MapProvider extends ChangeNotifier {
   Location location = Location();
